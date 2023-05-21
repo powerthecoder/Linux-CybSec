@@ -2,7 +2,7 @@
 CyberSecurity Scripts
 
 # to run script
-`sudo apt-get install -y python3`
-`wget https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/Scripts/secure.py`
-`chmod +x secure.py`
-`./secure.py`
+`sudo apt-get install -y python3` \n
+`wget https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/Scripts/secure.py`\n
+`chmod +x secure.py`\n
+`./secure.py`\n
