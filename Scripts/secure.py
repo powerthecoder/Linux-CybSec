@@ -1,30 +1,6 @@
 import os
 import time
 
-"""
-############################/etc/portsentry/portsentry.conf
-
-# The listening mode
-TCP_MODE="atcp"
-UDP_MODE="audp"
-
-# Enable blocking of port scanners
-BLOCK_UDP="1"
-BLOCK_TCP="1"
-
-# Block method (iptables)
-KILL_ROUTE="/sbin/iptables -I INPUT -s $TARGET$ -j DROP"
-
-# Number of ports scanned before taking action
-SCAN_TRIGGER="1"
-
-# Port exclusion (ignore specific ports)
-IGNORE_PORTS=""
-
-# Log file
-# LOGFILE="/var/log/portsentry/portsentry.log"
-"""
-
 
 
 # update and upgrade
@@ -55,7 +31,10 @@ os.system("apt-get update -y && apt-get upgrade -y")
 
 
 # Install Fail2Ban
+print()
 print("###### Installing Fail2Ban ###### ")
+print()
+time.sleep(1)
 os.system("apt-get install -y fail2ban")
 # Configure Fail2Ban
 print("###### Configuring Fail2Ban ######")
@@ -64,11 +43,16 @@ os.system("wget -O /etc/fail2ban/jail.conf https://raw.githubusercontent.com/pow
 os.system("systemctl restart fail2ban")
 
 # Install UFW 
+print()
 print("###### Installing UFW ######")
+print()
+time.sleep(1)
 os.system("apt-get install -y ufw")
-os.system("enable ufw")
+os.system("ufw enable")
 # Configure UFW
+print()
 print("###### Configuring UFW ######")
+print()
 ports = input("Enter Ports (123/tcp,124/udp,125,100:200): ")
 os.system(f"ufw allow {ports}")
 os.system("ufw deny proto tcp flags FIN,SYN,RST,PSH,ACK,URG NONE FIN,SYN SYN,RST FIN,RST FIN,ACK FIN ACK,URG URG ACK,FIN FIN ACK,PSH PSH ALL ALL NONE FIN,PSH,URG SYN,FIN,PSH,URG SYN,RST,ACK,FIN,URG")
@@ -77,16 +61,23 @@ os.system("ufw route allow proto tcp synproxy all")
 os.system("ufw limit proto tcp from any to any port 22")
 
 # Install SSHD
+print()
 print("###### Installing SSHD ######")
+print()
+time.sleep(1)
 os.system("apt-get install -y openssh-server")
 # Configure SSHD
 print("###### Configuring SSHD ######")
 os.system("cp /etc/ssh/sshd_config /etc/ssh/sshd_config.backup")
 os.system("wget -O /etc/ssh/sshd_config https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/Config%20Files/sshd_config")
+os.system("systemctl restart sshd")
 os.system("systemctl restart ssh")
 
 # Configure IPTables
+print()
 print("###### Configuring IPTables ######")
+print()
+time.sleep(1)
 os.system("""
 ### 1: Drop invalid packets ###
 /sbin/iptables -t mangle -A PREROUTING -m conntrack --ctstate INVALID -j DROP
@@ -157,20 +148,32 @@ os.system("""
 """)
 
 # Install PortSentry
+print()
 print("###### Installing PortSentry ######")
+print()
+time.sleep(1)
 os.system("apt install -y portsentry")
 # Configure PortSentry
+print()
 print("###### Configuring PortSentry ######")
+print()
 os.system("cp /etc/portsentry/portsentry.conf /etc/portsentry/portsentry.conf.backup")
 os.system("wget -O /etc/portsentry/portsentry.conf https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/Config%20Files/portsentry.conf")
 os.system("systemctl restart portsentry")
 
 # Install chrootkit
+print()
 print("###### Installing RKHUNTER ######")
+print()
+time.sleep(1)
 os.system("apt-get install -y rkhunter")
 # Run chrootkit
+print()
 print("###### Running RKHUNTER ######")
+print()
 os.system("rkhunter --update")
 os.system("rkhunter --check")
 
+print()
 print("###### SCRIPT HAS BEEN COMPLETE ######")
+print()
