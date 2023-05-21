@@ -60,7 +60,7 @@ os.system("apt-get install -y fail2ban")
 # Configure Fail2Ban
 print("###### Configuring Fail2Ban ######")
 os.system("cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.conf.backup")
-os.system("wget -O /etc/fail2ban/jail.conf LINK")
+os.system("wget -O /etc/fail2ban/jail.conf https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/Config%20Files/jail.local")
 os.system("systemctl restart fail2ban")
 
 # Install UFW 
@@ -82,7 +82,7 @@ os.system("apt-get install -y openssh-server")
 # Configure SSHD
 print("###### Configuring SSHD ######")
 os.system("cp /etc/ssh/sshd_config /etc/ssh/sshd_config.backup")
-os.system("wget -O /etc/ssh/sshd_config LINK")
+os.system("wget -O /etc/ssh/sshd_config https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/Config%20Files/sshd_config")
 os.system("systemctl restart ssh")
 
 # Configure IPTables
@@ -162,7 +162,7 @@ os.system("apt install -y portsentry")
 # Configure PortSentry
 print("###### Configuring PortSentry ######")
 os.system("cp /etc/portsentry/portsentry.conf /etc/portsentry/portsentry.conf.backup")
-os.system("wget -O /etc/portsentry/portsentry.conf LINK")
+os.system("wget -O /etc/portsentry/portsentry.conf https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/Config%20Files/portsentry.conf")
 os.system("systemctl restart portsentry")
 
 # Install chrootkit
