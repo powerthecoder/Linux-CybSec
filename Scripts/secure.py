@@ -38,7 +38,6 @@ IGNORE_PORTS=""
 # configure IPTables for PortScanning and BotAttacks
 # install portsentry
 # configure portsentry
-
 # install and run chrootkit
 
 
