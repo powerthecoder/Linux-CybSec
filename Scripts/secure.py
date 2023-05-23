@@ -28,6 +28,7 @@ time.sleep(5)
 # Update and Upgrade
 print("###### Updating Software and Operating System ######")
 os.system("apt-get update -y && apt-get upgrade -y")
+os.system("apt-get autoremove -y")
 
 
 # Install Fail2Ban

@@ -3,6 +3,7 @@
 # Update and Upgrade
 echo "###### Updating Software and Operating System ######"
 apt-get update -y && apt-get upgrade -y
+apt-get autoremove -y
 
 # Install Fail2Ban
 echo
