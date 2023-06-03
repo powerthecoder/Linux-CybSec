@@ -1,7 +1,9 @@
 # Linux-CybSec
 CyberSecurity Scripts
 
-![#f03c15] `Script is broken. DO NOT RUN`
+```diff
+-Script is broken. DO NOT RUN
+```
 
 # to run script
 * `sudo apt-get install -y python3`
