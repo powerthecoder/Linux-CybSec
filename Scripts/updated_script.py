@@ -1,80 +1,68 @@
-import os
-import time
-
-
-
 # update and upgrade
+# install unattended-upgrades
+# configure unattended-upgrades
 # install fail2ban
 # configure fail2ban (->restart)
 # install ufw
 # enable and configure ufw (ask user for ports)
-# configure ufw to protect against portscans and botattacks
+# configure ufw to protect against portscans and botattacks *
 # install sshd
 # configure sshd (->restart) (no keys)
 # configure IPTables for PortScanning and BotAttacks
 # install portsentry
 # configure portsentry
+# install sshguard
+# configure sshguard
+# * install OpenVAS https://www.geeksforgeeks.org/installing-openvas-on-kali-linux/#
 # install and run chrootkit
 
+import os
+import time
 
+def InstallAll():
+    # Update and Upgrade system
+    os.system("apt-get update -y && apt-get upgrade -y")
 
-print("Starting Script")
-print("""
------------------------
-RUN IN SUDO
------------------------
-""")
-time.sleep(5)
+    # Install unattended-upgrades and configure
+    os.system("apt-get install unattended-upgrades -y")
+    print("\n"*5)
+    unattended_upgrades_reboot = input("Do you want Unattended Upgrades to automaticaly reboot your system? (default = no): ")
+    if (unattended_upgrades_reboot.lower() == "y" or unattended_upgrades_reboot.lower() == "yes"):
+        #/etc/apt/apt.conf.d/50unattended-upgrades
+        None #make this install reboot_yes 
+        os.system("systemctl stop unattended_upgrades")
+        os.system("systemctl start unattended_upgrades")
+        os.system("systemctl restart unattended_upgrades")
+    else:
+        None #make this install reboot_no
+    
+    # Install Fail2Ban and configure
+    os.system("apt-get install fail2ban -y") #/etc/fail2ban/jail.local
+    os.system("cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.conf.backup")
+    """ADD CONFIG COMMANDS HERE""" #/etc/fail2ban/jail.conf
+    os.system("systemctl stop fail2ban")
+    os.system("systemctl start fail2ban")
+    os.system("systemctl restart fail2ban")
 
-# Update and Upgrade
-print("###### Updating Software and Operating System ######")
-os.system("apt-get update -y && apt-get upgrade -y")
-os.system("apt-get autoremove -y")
+    # Install ufw and configure
+    os.system("apt-get install ufw -y")
+    print("\n"*5)
+    ufw_ports = input("Enter ports you want opened (123,456,789): ")
+    ufw_port_list = ufw_ports.split(",")
+    for port in ufw_port_list:
+        os.system(f"ufw allow {port}")
+    os.system("systemctl stop ufw")
+    os.system("systemctl start ufw")
+    os.system("systemctl restart ufw")
 
+    # Install sshd and configure
+    os.system("apt-get install openssh-server -y")
+    os.system("cp /etc/ssh/sshd_config /etc/ssh/sshd_config.backup")
+    """ADD CONFIG COMMANDS HERE""" #/etc/ssh/sshd_config
+    os.system("systemctl restart ssh")
 
-# Install Fail2Ban
-print()
-print("###### Installing Fail2Ban ###### ")
-print()
-time.sleep(1)
-os.system("apt-get install -y fail2ban")
-# Configure Fail2Ban
-print("###### Configuring Fail2Ban ######")
-os.system("cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.conf.backup")
-os.system("wget -O /etc/fail2ban/jail.conf https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/Config%20Files/jail.local")
-os.system("systemctl restart fail2ban")
-
-# Install UFW 
-print()
-print("###### Installing UFW ######")
-print()
-time.sleep(1)
-os.system("apt-get install -y ufw")
-os.system("ufw enable")
-# Configure UFW
-print()
-print("###### Configuring UFW ######")
-print()
-ports = input("Enter Ports (123/tcp,124/udp): ")
-os.system(f"ufw allow {ports}")
-os.system("ufw deny proto tcp flags FIN,SYN,RST,PSH,ACK,URG NONE FIN,SYN SYN,RST FIN,RST FIN,ACK FIN ACK,URG URG ACK,FIN FIN ACK,PSH PSH ALL ALL NONE FIN,PSH,URG SYN,FIN,PSH,URG SYN,RST,ACK,FIN,URG")
-os.system("ufw deny proto icmp")
-os.system("ufw route allow proto tcp synproxy all")
-os.system("ufw limit proto tcp from any to any port 22")
-
-# Configure SSHD
-print("###### Configuring SSHD ######")
-os.system("cp /etc/ssh/sshd_config /etc/ssh/sshd_config.backup")
-os.system("wget -O /etc/ssh/sshd_config https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/Config%20Files/sshd_config")
-os.system("systemctl restart sshd")
-os.system("systemctl restart ssh")
-
-# Configure IPTables
-print()
-print("###### Configuring IPTables ######")
-print()
-time.sleep(1)
-os.system("""
+    # Setup IPTables
+    os.system("""
 /sbin/iptables -t mangle -A PREROUTING -m conntrack --ctstate INVALID -j DROP
 /sbin/iptables -t mangle -A PREROUTING -p tcp ! --syn -m conntrack --ctstate NEW -j DROP
 /sbin/iptables -t mangle -A PREROUTING -p tcp -m conntrack --ctstate NEW -m tcpmss ! --mss 536:65535 -j DROP
@@ -117,34 +105,30 @@ os.system("""
 /sbin/iptables -A port-scanning -p tcp --tcp-flags SYN,ACK,FIN,RST RST -m limit --limit 1/s --limit-burst 2 -j RETURN
 /sbin/iptables -A port-scanning -j DROP
 """)
+    
+    # Install portsentry and configure
+    os.system("apt-get install portsentry -y")
+    os.system("cp /etc/portsentry/portsentry.conf /etc/portsentry/portsentry.conf.backup")
+    """ADD CONFIG COMMANDS HERE""" #/etc/portsentry/portsentry.conf
+    os.system("systemctl stop portsentry")
+    os.system("systemctl start portsentry")
+    os.system("systemctl restart portsentry")
 
-# Install PortSentry
-print()
-print("###### Installing PortSentry ######")
-print()
-time.sleep(1)
-os.system("apt install -y portsentry")
-# Configure PortSentry
-print()
-print("###### Configuring PortSentry ######")
-print()
-os.system("cp /etc/portsentry/portsentry.conf /etc/portsentry/portsentry.conf.backup")
-os.system("wget -O /etc/portsentry/portsentry.conf https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/Config%20Files/portsentry.conf")
-os.system("systemctl restart portsentry")
+    # Install sshguard and configure
+    os.system("apt-get install sshguard -y")
+    os.system("cp /etc/sshguard/sshguard.conf /etc/sshguard/sshguard.conf.backup")
+    """ADD CONFIG COMMANDS HERE""" #/etc/sshguard/sshguard.conf
+    os.system("systemctl stop sshguard")
+    os.system("systemctl start sshguard")
+    os.system("systemctl restart sshguard")
 
-# Install chrootkit
-print()
-print("###### Installing RKHUNTER ######")
-print()
-time.sleep(1)
-os.system("apt-get install -y rkhunter")
-# Run chrootkit
-print()
-print("###### Running RKHUNTER ######")
-print()
-os.system("rkhunter --update")
-os.system("rkhunter --check")
+    # Install rkhunter and run
+    os.system("apt-get install -y rkhunter")
+    os.system("rkhunter --update")
+    os.system("rkhunter --check")
 
-print()
-print("###### SCRIPT HAS BEEN COMPLETE ######")
-print()
+
+
+
+if __name__ == "__main__":
+    InstallAll()
