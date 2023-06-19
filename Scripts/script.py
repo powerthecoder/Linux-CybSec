@@ -180,6 +180,10 @@ def InstallAll():
             print("\n"*5)
             print(f"### NEW USER {username} HAS BEEN CREATED ###")
             print("When you log out please make sure to log in with this new user")
+            print()
+            print()
+            print()
+            print(f"# ATTENTION # Please make sure to type this command `passwd {username}`")
             x = 1
         else:
             os.system("clear")
