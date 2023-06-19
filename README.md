@@ -1,14 +1,14 @@
-# [TITLE] Linux CybSec
+# Linux CybSec
 
 This script is designed to help secure fresh Ubuntu machines
 
-## [SubTitle] To Run Script
+## To Run Script
 Please make sure to run this script in root/sudo
 - `sudo apt-get install -y python3`
 - `sudo wget https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/Scripts/script.py`
 - `sudo python3 script.py`
 
-## [SubTitle] Prompts that will appear
+## Prompts that will appear
 You will be asked questions such as what ports to open, and if you want to download a certain type of configuration file over another. In these prompts please type what is needed for your server
 
 ![Photo 1](Photos/photo1.png)<br>
