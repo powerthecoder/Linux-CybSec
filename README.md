@@ -43,3 +43,9 @@ If you see any number other than 0 for the boxed information, please open a tick
 
 Once this script is done running you can delete the `script.py` file by typing the following command:
 `sudo rm script.py`
+
+# ATTENTION 
+Please make sure to create a new user if you havnt already made one
+this script will disable root from being able to log in, you will need a new 
+user that has sudo access. If you set it up throught the script. Please make sure to log in with that 
+new user
