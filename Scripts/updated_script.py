@@ -23,10 +23,16 @@ import os
 import time
 
 def InstallAll():
+    print("### STARTING SCRIPT ###")
+    time.sleep(3)
     # Update and Upgrade system
+    print("\n"*5)
+    print("### STARTING UPDATES ###")
     os.system("apt-get update -y && apt-get upgrade -y")
 
     # Install unattended-upgrades and configure
+    print("\n"*5)
+    print("### STARTING UNATTENDED UPGRADES ###")
     os.system("apt-get install unattended-upgrades -y")
     print("\n"*5)
     unattended_upgrades_reboot = input("Do you want Unattended Upgrades to automaticaly reboot your system? (default = no): ")
@@ -34,15 +40,18 @@ def InstallAll():
     if (unattended_upgrades_reboot.lower() == "y" or unattended_upgrades_reboot.lower() == "yes"):
         #/etc/apt/apt.conf.d/50unattended-upgrades
         os.system("wget -O /etc/apt/apt.conf.d/50unattended-upgrades https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/New%20Config%20Files/unattended_upgrades_reboot_yes")
-        os.system("systemctl stop unattended_upgrades")
-        os.system("systemctl start unattended_upgrades")
-        os.system("systemctl restart unattended_upgrades")
+        os.system("systemctl stop unattended-upgrades.service")
+        os.system("systemctl start unattended-upgrades.service")
+        os.system("systemctl restart unattended-upgrades.service")
     else:
         os.system("wget -O /etc/apt/apt.conf.d/50unattended-upgrades https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/New%20Config%20Files/unattended_upgrades_reboot_no")
-        os.system("systemctl stop unattended_upgrades")
-        os.system("systemctl start unattended_upgrades")
-        os.system("systemctl restart unattended_upgrades")
+        os.system("systemctl stop unattended-upgrades.service")
+        os.system("systemctl start unattended-upgrades.service")
+        os.system("systemctl restart unattended-upgrades.service")
+
     
+    print("\n"*5)
+    print("### STARTING FAIL2BAN ###")
     # Install Fail2Ban and configure
     os.system("apt-get install fail2ban -y") #/etc/fail2ban/jail.local
     os.system("cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.conf.backup")
@@ -51,6 +60,8 @@ def InstallAll():
     os.system("systemctl start fail2ban")
     os.system("systemctl restart fail2ban")
 
+    print("\n"*5)
+    print("### STARTING UFW ###")
     # Install ufw and configure
     os.system("apt-get install ufw -y")
     print("\n"*5)
@@ -58,16 +69,21 @@ def InstallAll():
     ufw_port_list = ufw_ports.split(",")
     for port in ufw_port_list:
         os.system(f"ufw allow {port}")
+        time.sleep(1)
     os.system("systemctl stop ufw")
     os.system("systemctl start ufw")
     os.system("systemctl restart ufw")
 
+    print("\n"*5)
+    print("### STARTING SSHD ###")
     # Install sshd and configure
     os.system("apt-get install openssh-server -y")
     os.system("cp /etc/ssh/sshd_config /etc/ssh/sshd_config.backup")
     os.system("wget -O /etc/ssh/sshd_config https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/New%20Config%20Files/sshd_config")
     os.system("systemctl restart ssh")
 
+    print("\n"*5)
+    print("### STARTING IPTABLES ###")
     # Setup IPTables
     os.system("""
 /sbin/iptables -t mangle -A PREROUTING -m conntrack --ctstate INVALID -j DROP
@@ -113,6 +129,8 @@ def InstallAll():
 /sbin/iptables -A port-scanning -j DROP
 """)
     
+    print("\n"*5)
+    print("### STARTING PORTSENTRY ###")
     # Install portsentry and configure
     os.system("apt-get install portsentry -y")
     os.system("cp /etc/portsentry/portsentry.conf /etc/portsentry/portsentry.conf.backup")
@@ -121,6 +139,8 @@ def InstallAll():
     os.system("systemctl start portsentry")
     os.system("systemctl restart portsentry")
 
+    print("\n"*5)
+    print("### STARTING SSHGUARD ###")
     # Install sshguard and configure
     os.system("apt-get install sshguard -y")
     os.system("cp /etc/sshguard/sshguard.conf /etc/sshguard/sshguard.conf.backup")
@@ -129,6 +149,8 @@ def InstallAll():
     os.system("systemctl start sshguard")
     os.system("systemctl restart sshguard")
 
+    print("\n"*5)
+    print("### STARTING RKHUNTER ###")
     # Install rkhunter and run
     os.system("apt-get install -y rkhunter")
     os.system("rkhunter --update")
