@@ -161,8 +161,8 @@ def InstallAll():
     os.system("rkhunter --check")
 
     time.sleep(5)
-
-    while True:
+    x = 0
+    while (x != 1):
         print("\n"*5)
         print("### ATTENTION USER, SERVER WILL NOT LET YOU LOG IN UNLESS YOU DO THE FOLLOWING ###")
         # Creating a new user
@@ -180,7 +180,9 @@ def InstallAll():
             print("\n"*5)
             print(f"### NEW USER {username} HAS BEEN CREATED ###")
             print("When you log out please make sure to log in with this new user")
+            x = 1
         else:
+            os.system("clear")
             pass
 
 
