@@ -9,4 +9,4 @@ CyberSecurity Scripts
 * `sudo apt-get install -y python3`
 * `wget https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/Scripts/script.py`
 * `chmod +x script.py`
-* `./script.py`
+* `python3 script.py`
