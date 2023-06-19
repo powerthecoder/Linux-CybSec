@@ -150,6 +150,10 @@ def InstallAll():
     os.system("systemctl restart sshguard")
 
     print("\n"*5)
+    print("### STARTING UPDATES ###")
+    os.system("apt-get update -y && apt-get upgrade -y")
+
+    print("\n"*5)
     print("### STARTING RKHUNTER ###")
     # Install rkhunter and run
     os.system("apt-get install -y rkhunter")
