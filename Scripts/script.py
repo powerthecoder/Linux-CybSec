@@ -160,6 +160,29 @@ def InstallAll():
     os.system("rkhunter --update")
     os.system("rkhunter --check")
 
+    time.sleep(5)
+
+    while True:
+        print("\n"*5)
+        print("### ATTENTION USER, SERVER WILL NOT LET YOU LOG IN UNLESS YOU DO THE FOLLOWING ###")
+        # Creating a new user
+        print("\n"*3)
+        print("!!! The Following prompt will ask you to create a new user, please make sure to log in with this user")
+        print("The server will no longer allow you to log in with the username 'root' !!!")
+        print()
+        print()
+        yes_or_no = input("Please type 'understand' if you understand the prompt: ")
+        if (yes_or_no == "understand"):
+            time.sleep(2)
+            username = input("Please enter new username: ")
+            os.system(f"useradd {username}")
+            os.system(f"usermod -aG sudo {username}")
+            print("\n"*5)
+            print(f"### NEW USER {username} HAS BEEN CREATED ###")
+            print("When you log out please make sure to log in with this new user")
+        else:
+            pass
+
 
 
 
