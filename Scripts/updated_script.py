@@ -39,12 +39,12 @@ def InstallAll():
     os.system("cp /etc/apt/apt.conf.d/50unattended-upgrades /etc/apt/apt.conf.d/50unattended-upgrades.backup")
     if (unattended_upgrades_reboot.lower() == "y" or unattended_upgrades_reboot.lower() == "yes"):
         #/etc/apt/apt.conf.d/50unattended-upgrades
-        os.system("wget -O /etc/apt/apt.conf.d/50unattended-upgrades https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/New%20Config%20Files/unattended_upgrades_reboot_yes")
+        os.system("wget -O /etc/apt/apt.conf.d/50unattended-upgrades https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/Config%20Files/unattended_upgrades_reboot_yes")
         os.system("systemctl stop unattended-upgrades.service")
         os.system("systemctl start unattended-upgrades.service")
         os.system("systemctl restart unattended-upgrades.service")
     else:
-        os.system("wget -O /etc/apt/apt.conf.d/50unattended-upgrades https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/New%20Config%20Files/unattended_upgrades_reboot_no")
+        os.system("wget -O /etc/apt/apt.conf.d/50unattended-upgrades https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/Config%20Files/unattended_upgrades_reboot_no")
         os.system("systemctl stop unattended-upgrades.service")
         os.system("systemctl start unattended-upgrades.service")
         os.system("systemctl restart unattended-upgrades.service")
@@ -55,7 +55,7 @@ def InstallAll():
     # Install Fail2Ban and configure
     os.system("apt-get install fail2ban -y") #/etc/fail2ban/jail.local
     os.system("cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.conf.backup")
-    os.system("wget -O /etc/fail2ban/jail.local https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/New%20Config%20Files/fail2ban_jail.local")
+    os.system("wget -O /etc/fail2ban/jail.local https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/Config%20Files/fail2ban_jail.local")
     os.system("systemctl stop fail2ban")
     os.system("systemctl start fail2ban")
     os.system("systemctl restart fail2ban")
@@ -79,7 +79,7 @@ def InstallAll():
     # Install sshd and configure
     os.system("apt-get install openssh-server -y")
     os.system("cp /etc/ssh/sshd_config /etc/ssh/sshd_config.backup")
-    os.system("wget -O /etc/ssh/sshd_config https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/New%20Config%20Files/sshd_config")
+    os.system("wget -O /etc/ssh/sshd_config https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/Config%20Files/sshd_config")
     os.system("systemctl restart ssh")
 
     print("\n"*5)
@@ -134,7 +134,7 @@ def InstallAll():
     # Install portsentry and configure
     os.system("apt-get install portsentry -y")
     os.system("cp /etc/portsentry/portsentry.conf /etc/portsentry/portsentry.conf.backup")
-    os.system("wget -O /etc/portsentry/portsentry.conf https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/New%20Config%20Files/portsentry.conf")
+    os.system("wget -O /etc/portsentry/portsentry.conf https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/Config%20Files/portsentry.conf")
     os.system("systemctl stop portsentry")
     os.system("systemctl start portsentry")
     os.system("systemctl restart portsentry")
@@ -144,7 +144,7 @@ def InstallAll():
     # Install sshguard and configure
     os.system("apt-get install sshguard -y")
     os.system("cp /etc/sshguard/sshguard.conf /etc/sshguard/sshguard.conf.backup")
-    os.system("wget -O /etc/sshguard/sshguard.conf https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/New%20Config%20Files/sshguard.conf")
+    os.system("wget -O /etc/sshguard/sshguard.conf https://raw.githubusercontent.com/powerthecoder/Linux-CybSec/main/Config%20Files/sshguard.conf")
     os.system("systemctl stop sshguard")
     os.system("systemctl start sshguard")
     os.system("systemctl restart sshguard")
