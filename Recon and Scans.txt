@@ -1,0 +1,14 @@
+Recon Tools:
+
+Old School:
+nikto -host 'http://target.tgt'
+
+
+Current:
+httpx - HTTP Tech stack probing. Light Recon. (Watch your path!!! Run from ~/go/bin/
+Example: ~/go/bin/httpx -commands    or from the ~/go/bin/ dir use ./httpx)
+nuclei - Web App tech detection and vulnerability scanner. Heavy Recon.
+
+Command Examples:
+httpx -td -sc -title -ip -cname -u 'http://target.tgt'
+nuclei -ni -me nucleioutput -as -fr -u 'http://target.tgt'
